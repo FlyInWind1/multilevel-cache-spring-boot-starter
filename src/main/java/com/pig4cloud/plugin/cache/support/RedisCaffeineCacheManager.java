@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.Duration;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -125,7 +126,9 @@ public class RedisCaffeineCacheManager implements CacheManager {
 
 	@Override
 	public Collection<String> getCacheNames() {
-		return this.cacheNames;
+		Set<String> set = new HashSet<>(cacheMap.keySet());
+		set.addAll(this.cacheNames);
+		return set;
 	}
 
 	public void clearLocal(String cacheName, Object key) {
